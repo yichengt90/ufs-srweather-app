@@ -1,0 +1,84 @@
+FROM clouden90/ufs-srw-ubuntu:beta2 as base
+
+LABEL AUTHOR EPIC
+
+# ---------
+# UFS - SRW
+# ---------
+WORKDIR /ufs
+
+#
+SHELL ["/bin/bash", "--login", "-c"]
+RUN apt-get -y install netcdf-bin
+
+# download data for gst data
+RUN curl -O -L https://dl.dropboxusercontent.com/s/34doqqrislv958m/GST.tar.gz && \
+    tar -zxvf GST.tar.gz && \
+    sed -i "56s/RUN_CMD_POST='mpirun --allow-run-as-root -np 1 --oversubscribe'/RUN_CMD_POST='mpirun --allow-run-as-root -np 1 --oversubscribe'/" /ufs/model_data/template/docker.sh && \
+    rm GST.tar.gz
+
+# 
+ENV TAG=release/@SRW_TAG
+RUN echo ${TAG} 
+
+#set env only inside container
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+ENV PATH=/ufs/miniconda/bin:$PATH
+ENV EXPTDIR=/ufs/expt_dirs/test_community
+ 
+RUN git clone https://github.com/yichengt90/ufs-srweather-app.git
+WORKDIR /ufs/ufs-srweather-app
+# RUN git checkout release/stable-nightly
+RUN git checkout ${TAG}
+
+#
+RUN sed -i 's/hash = @SRW_UFS/hash = @UFS_TAG/g' ./Externals.cfg
+RUN tail -n 15 Externals.cfg
+
+#
+RUN ./manage_externals/checkout_externals
+    
+#RUN sed -i '8s/required = True/required = False/' Externals.cfg && \
+#    sed -i '17s/required = True/required = False/' Externals.cfg && \
+#    sed -i '35s/required = True/required = False/' Externals.cfg && \
+#    sed -i '35s/"-DINLINE_POST=ON"/"-DINLINE_POST=OFF"/' ./src/CMakeLists.txt && \
+#    ./manage_externals/checkout_externals
+
+# build
+RUN mkdir build
+WORKDIR /ufs/ufs-srweather-app/build
+ENV ESMFMKFILE=/usr/local/lib/esmf.mk
+RUN cmake -DBUILD_UFS_UTILS=ON -DBUILD_UPP=OFF -DAPP=ATM -DCMAKE_MODULE_PATH=/usr/local/lib/cmake -DCMAKE_INSTALL_PREFIX=.. ..
+RUN make -j2
+
+# set regional-workflow
+WORKDIR /ufs/ufs-srweather-app/regional_workflow/ush
+RUN cp /ufs/model_data/template/config.sh ./ && \
+    cp /ufs/model_data/template/config_defaults.sh ./ && \
+    cp /ufs/model_data/template/valid_param_vals.sh ./ && \
+    cp /ufs/model_data/template/docker.sh ./machine/
+
+RUN source /ufs/miniconda/etc/profile.d/conda.sh && \
+    conda activate regional_workflow && \
+    ./generate_FV3LAM_wflow.sh
+
+RUN sed -i "812s/PE_MEMBER01='3'/PE_MEMBER01='2'/" /ufs/expt_dirs/test_community/var_defns.sh && \
+    sed -i "66s/FCST_LEN_HRS='6'/FCST_LEN_HRS='1'/" /ufs/expt_dirs/test_community/var_defns.sh && \
+    sed -i "119s/WRTCMP_write_tasks_per_group='2'/WRTCMP_write_tasks_per_group='1'/" /ufs/expt_dirs/test_community/var_defns.sh
+
+#
+WORKDIR /ufs/ufs-srweather-app/regional_workflow/ush/wrappers
+RUN source /ufs/miniconda/etc/profile.d/conda.sh && \
+    conda activate regional_workflow && \
+    bash run_get_ics.sh && \
+    bash run_get_lbcs.sh && \
+    bash run_make_ics.sh && \
+    bash run_make_lbcs.sh && \
+    bash run_fcst.sh
+#    bash run_post.sh
+
+# clean
+WORKDIR /ufs
+RUN rm -rf ufs-srweather-app && \
+    rm -rf model_data && \
+    rm -rf fix

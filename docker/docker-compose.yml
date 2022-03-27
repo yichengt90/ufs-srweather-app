@@ -1,0 +1,8 @@
+version: "3.2"
+  
+services:
+
+  # build and test ufs srw 
+  ufs-srw-ubuntu:
+    build: ./ufs-srw-ubuntu
+    image: clouden90/ufs-srw-ubuntu:stable-nightly
