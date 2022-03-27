@@ -1,10 +1,10 @@
 name: Daily CI trigger
 
-on: push
+# on: push
 
-#on:
-#  schedule:
-#    - cron: '10 22 * * *'
+on:
+  schedule:
+    - cron: '45 23 * * *'
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
         id: check
         run: |          
           #
-          echo "srw branch is ${GITHUB_REF##*/}"
+          # echo "srw branch is ${GITHUB_REF##*/}"
           git branch
           echo ${{ env.srw_ufs_tag }}
           echo ${{ env.ufs_tag }}
@@ -59,7 +59,7 @@ jobs:
           echo "Now test srw with new ufs tag!"
           #TODO: put test here!
           cd docker
-          echo -e "SRW_TAG=${GITHUB_REF##*/}\nSRW_UFS_TAG=${{ env.srw_ufs_tag }}\nUFS_TAG=${{ env.ufs_tag }}" > .env
+          echo -e "SRW_TAG=stable-nightly\nSRW_UFS_TAG=${{ env.srw_ufs_tag }}\nUFS_TAG=${{ env.ufs_tag }}" > .env
           more .env
           source .env
           #
@@ -69,16 +69,16 @@ jobs:
           sed -i 's/@SRW_TAG/'$"${SRW_TAG}"'/g' ./ufs-srw-ubuntu/Dockerfile
           more ./ufs-srw-ubuntu/Dockerfile
           #
-          # docker-compose build
+          docker-compose build
           #
-          OUTPUT=1 #0
+          OUTPUT=0
           echo "::set-output name=OUTPUT::$OUTPUT"
           
       - name: Depoly
         if: ${{ (steps.test.outputs.OUTPUT == 0) && (steps.check.outputs.OUTPUT == 1) }}
         run: |            
           #
-          echo "Passed tests! Now will update ufs tag in srw branch: ${GITHUB_REF##*/}"
+          echo "Passed tests! Now will update ufs tag in srw branch: release/stable-nightly"
           ls -l -h 
           sed -i 's/hash = '$"${{ env.srw_ufs_tag }}"'/hash = '$"${{ env.ufs_tag }}"'/g' ./Externals.cfg
           more ./Externals.cfg
@@ -87,6 +87,6 @@ jobs:
           echo "Now push new tag to repo!"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          # git add ./Externals.cfg
-          # git commit -m "Update Externals.cfg"
-          # git push
+          git add ./Externals.cfg
+          git commit -m "Update Externals.cfg"
+          git push
