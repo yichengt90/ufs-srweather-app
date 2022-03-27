@@ -1,10 +1,10 @@
 name: Daily CI trigger
 
-# on: push
+on: push
 
-on:
-  schedule:
-    - cron: '10 22 * * *'
+#on:
+#  schedule:
+#    - cron: '10 22 * * *'
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: release/stable-nightly
+          ref: 'release/stable-nightly'
           
       - name: Get tag from ufs_weather_model
         run: |
@@ -37,6 +37,7 @@ jobs:
         run: |          
           #
           echo "srw branch is ${GITHUB_REF##*/}"
+          git branch
           echo ${{ env.srw_ufs_tag }}
           echo ${{ env.ufs_tag }}
           if [ ${{ env.ufs_tag }} == ${{ env.srw_ufs_tag }} ]; then
@@ -68,9 +69,9 @@ jobs:
           sed -i 's/@SRW_TAG/'$"${SRW_TAG}"'/g' ./ufs-srw-ubuntu/Dockerfile
           more ./ufs-srw-ubuntu/Dockerfile
           #
-          docker-compose build
+          # docker-compose build
           #
-          OUTPUT=0
+          OUTPUT=1 #0
           echo "::set-output name=OUTPUT::$OUTPUT"
           
       - name: Depoly
@@ -86,6 +87,6 @@ jobs:
           echo "Now push new tag to repo!"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add ./Externals.cfg
-          git commit -m "Update Externals.cfg"
-          git push
+          # git add ./Externals.cfg
+          # git commit -m "Update Externals.cfg"
+          # git push
