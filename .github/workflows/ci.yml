@@ -1,0 +1,91 @@
+name: Daily CI trigger
+
+# on: push
+
+on:
+  schedule:
+    - cron: '10 22 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    name: CI/CD release/stable-nightly branch
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: release/stable-nightly
+          
+      - name: Get tag from ufs_weather_model
+        run: |
+          export WORKDIR=${PWD}
+          echo ${WORKDIR}       
+          echo "First get ufs tag in srw app!"
+          str=$(sed -n 24p Externals.cfg)
+          echo "srw_ufs_tag=${str:7:7}" >> $GITHUB_ENV
+          #
+          echo "Now get ufs tag in ufs develop branch"
+          git clone https://github.com/ufs-community/ufs-weather-model.git
+          cd ufs-weather-model
+          echo "ufs_tag=$(git rev-parse HEAD | cut -c 1-7)" >> $GITHUB_ENV
+          
+      - name: check UFS tag
+        id: check
+        run: |          
+          #
+          echo "srw branch is ${GITHUB_REF##*/}"
+          echo ${{ env.srw_ufs_tag }}
+          echo ${{ env.ufs_tag }}
+          if [ ${{ env.ufs_tag }} == ${{ env.srw_ufs_tag }} ]; then
+            OUTPUT=0
+          else
+            OUTPUT=1
+          fi
+          echo "::set-output name=OUTPUT::$OUTPUT"
+ 
+      - name: Early exit
+        if: steps.check.outputs.OUTPUT == 0
+        run: |
+          echo "Tags are the same! Do nothing! Have a nice day!"
+ 
+      - name: Test
+        id: test
+        if: steps.check.outputs.OUTPUT == 1
+        run: |
+          echo "Now test srw with new ufs tag!"
+          #TODO: put test here!
+          cd docker
+          echo -e "SRW_TAG=${GITHUB_REF##*/}\nSRW_UFS_TAG=${{ env.srw_ufs_tag }}\nUFS_TAG=${{ env.ufs_tag }}" > .env
+          more .env
+          source .env
+          #
+          cat ./ufs-srw-ubuntu/Dockerfile_template > ./ufs-srw-ubuntu/Dockerfile
+          sed -i 's/@UFS_TAG/'$"${UFS_TAG}"'/g' ./ufs-srw-ubuntu/Dockerfile
+          sed -i 's/@SRW_UFS/'$"${SRW_UFS_TAG}"'/g' ./ufs-srw-ubuntu/Dockerfile
+          sed -i 's/@SRW_TAG/'$"${SRW_TAG}"'/g' ./ufs-srw-ubuntu/Dockerfile
+          more ./ufs-srw-ubuntu/Dockerfile
+          #
+          docker-compose build
+          #
+          OUTPUT=0
+          echo "::set-output name=OUTPUT::$OUTPUT"
+          
+      - name: Depoly
+        if: ${{ (steps.test.outputs.OUTPUT == 0) && (steps.check.outputs.OUTPUT == 1) }}
+        run: |            
+          #
+          echo "Passed tests! Now will update ufs tag in srw branch: ${GITHUB_REF##*/}"
+          ls -l -h 
+          sed -i 's/hash = '$"${{ env.srw_ufs_tag }}"'/hash = '$"${{ env.ufs_tag }}"'/g' ./Externals.cfg
+          more ./Externals.cfg
+          rm -rf ufs-weather-model
+          #
+          echo "Now push new tag to repo!"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add ./Externals.cfg
+          git commit -m "Update Externals.cfg"
+          git push
