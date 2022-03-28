@@ -48,7 +48,8 @@ RUN ./manage_externals/checkout_externals
 RUN mkdir build
 WORKDIR /ufs/ufs-srweather-app/build
 ENV ESMFMKFILE=/usr/local/lib/esmf.mk
-RUN cmake -DBUILD_UFS_UTILS=ON -DBUILD_UPP=OFF -DAPP=ATM -DCMAKE_MODULE_PATH=/usr/local/lib/cmake -DCMAKE_INSTALL_PREFIX=.. ..
+# RUN cmake -DBUILD_UFS_UTILS=ON -DBUILD_UPP=OFF -DAPP=ATM -DCMAKE_MODULE_PATH=/usr/local/lib/cmake -DCMAKE_INSTALL_PREFIX=.. ..
+RUN cmake -DAPP=ATM -DCMAKE_MODULE_PATH=/usr/local/lib/cmake -DCMAKE_INSTALL_PREFIX=.. ..
 RUN make -j2
 
 # set regional-workflow
@@ -74,8 +75,8 @@ RUN source /ufs/miniconda/etc/profile.d/conda.sh && \
     bash run_get_lbcs.sh && \
     bash run_make_ics.sh && \
     bash run_make_lbcs.sh && \
-    bash run_fcst.sh
-#    bash run_post.sh
+    bash run_fcst.sh && \
+    bash run_post.sh
 
 # clean
 WORKDIR /ufs
