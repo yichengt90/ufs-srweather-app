@@ -1,10 +1,10 @@
 name: Daily CI trigger
 
-# on: push
+on: push
 
-on:
-  schedule:
-    - cron: '30 03,06,09,12,14,15,18 * * *'
+#on:
+#  schedule:
+#    - cron: '30 03,06,09,12,14,15,18 * * *'
 
 jobs:
   build:
@@ -84,9 +84,9 @@ jobs:
           more ./Externals.cfg
           rm -rf ufs-weather-model
           #
-          echo "Now push new tag to repo!"
+          echo "Now we can push new tag to repo! We are in release branch so wont do anything! Have a nice day"
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add ./Externals.cfg
-          git commit -m "Update Externals.cfg"
-          git push
+          # git add ./Externals.cfg
+          # git commit -m "Update Externals.cfg"
+          # git push
