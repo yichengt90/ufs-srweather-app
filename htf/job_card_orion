@@ -1,0 +1,16 @@
+#!/bin/sh
+#SBATCH --account=epic-ps
+#SBATCH --qos=batch
+#SBATCH --partition=service
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=12
+#SBATCH --time=120
+#SBATCH --job-name="ctest_intel"
+#SBATCH --exclusive
+
+#
+source ./machines/orion_intel.env 
+
+#
+ctest
+#ctest -VV -R test_regional_workflow

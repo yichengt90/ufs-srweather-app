@@ -1,0 +1,13 @@
+#!/bin/sh
+#SBATCH -p compute
+#SBATCH -N 1
+#SBATCH -n 12 
+#SBATCH -t 120
+
+#
+source ./machines/noaacloud_aws_intel.env
+
+#
+ctest
+#ctest -VV -R test_fv3_regional_upp 
+#ctest -VV -R test_regional_workflow 
