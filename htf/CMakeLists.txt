@@ -2,7 +2,6 @@
 set( test_scripts
   atparse.bash
   default_vars.sh
-  create_case.sh 
   run_ccpp.sh
   run_regional_noquilt.sh
   run_regional_control.sh
@@ -46,6 +45,10 @@ foreach(FILENAME ${test_scripts})
            ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME}
            ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME} )
 endforeach(FILENAME)
+
+execute_process( COMMAND ${CMAKE_COMMAND} -E copy
+      ${CMAKE_CURRENT_SOURCE_DIR}/create_case.sh 
+      ${CMAKE_CURRENT_BINARY_DIR}/create_case.sh )
 
 #
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/template)

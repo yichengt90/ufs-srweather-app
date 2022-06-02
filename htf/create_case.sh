@@ -154,6 +154,10 @@ fi
 
 printf "COMPILER=${COMPILER}\n" >&2
 
+echo $HTF_DIR
+echo $BUILD_DIR
+echo $SRW_DIR
+
 # set MODULE_FILE for this platform/compiler combination
 MODULE_FILE="build_${PLATFORM}_${COMPILER}"
 if [ ! -f "${SRW_DIR}/modulefiles/${MODULE_FILE}" ]; then
@@ -179,16 +183,16 @@ module load "wflow_${PLATFORM}"
 conda activate regional_workflow
 
 # check if exp_dir is existed or not
-if [ -d "${EXP_DIR}" ]; then
+if [ -d "${EXP_DIR}/${EXP_NAME}" ]; then
   # interactive selection
-  printf "EXP directory (${EXP_DIR}) already exists\n"
+  printf "EXP directory (${EXP_DIR}/${EXP_NAME}) already exists\n"
   printf "Please choose what to do:\n\n"
   printf "[R]emove the existing directory\n"
   printf "[C]ontinue using in the existing directory\n"
   printf "[Q]uit this script\n"
   read -p "Choose an option (R/C/Q):" choice
   case ${choice} in
-    [Rr]* ) rm -rf ${EXP_DIR}; break ;;
+    [Rr]* ) rm -rf ${EXP_DIR}/${EXP_NAME}; break ;;
     [Cc]* ) break ;;
     [Qq]* ) exit ;;
     * ) printf "Invalid option selected.\n" ;;
@@ -211,7 +215,7 @@ case $CASE in
     LAYOUTX=10
     LAYOUTY=6
     FMT="nemsio"
-    MDL_BASEDIR=${HTF_DIR}/input_data/model_data/BARRY
+    MDL_BASEDIR=${HTF_DIR}/input-data/model_data/BARRY
     #EXP_DIR="${HTF_DIR}/${CASE}_${GRID_NAME}_${CCPP_SUITE}"
     #EXP_NAME="$(basename "$EXP_DIR")"
     # check if ic and lbcs data are existed
