@@ -80,11 +80,13 @@ Test project /work/noaa/epic-ps/ycteng/case/20220524/ufs-srweather-app/build/tes
 
 Total Test time (real) = 1500.55 sec
 ```
-Additionally, the user can use ``create_case.sh`` script to generate new case using regional workflow with desired setup (e.g. platform, grid, physical suite, selected event)
+Additionally, user can adjust ``default_vars.sh`` to run test#5 with differnt resolution/physical suite/number of cores/length of forecast.
+
+## Create case script
+The user can also use ``create_case.sh`` script to generate new case using regional workflow with desired setup (e.g. platform, grid, physical suite, [selected event](https://ufs-case-studies.readthedocs.io/en/develop/2019Barry.html))
 
 ```
 ./create_case.sh --platform=orion --account=epic-ps --grid=RRFS_CONUS_25km --fcst_hr=3 --ccpp=FV3_GFS_v15p2 --case=2019_BARRY
-
-Then follow instruction shown on screen to run your case
-
 ```
+Then follow instruction shown on screen to run your case. Below is an example to use ``create_case.sh`` with different grid resolution:
+![Screen Shot 2022-05-20 at 3 31 13 PM](https://user-images.githubusercontent.com/30629225/171699496-473fea39-5502-4d3c-b701-41aa56967a82.png)
