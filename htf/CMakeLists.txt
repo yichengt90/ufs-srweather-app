@@ -1,7 +1,8 @@
 #
 set( test_scripts
   atparse.bash
-  default_vars.sh 
+  default_vars.sh
+  create_case.sh 
   run_ccpp.sh
   run_regional_noquilt.sh
   run_regional_control.sh
@@ -9,12 +10,8 @@ set( test_scripts
   rt.sh
   run_test.sh
   run_srw.sh
-  config.sh.tmp
-  linux.sh.tmp
   job_card
   job_card_orion
-  run_barry.sh
-  barry_vars.sh
 )
 
 #
@@ -23,6 +20,13 @@ set( machine_envs
   ${CMAKE_CURRENT_SOURCE_DIR}/machines/noaacloud_aws_intel.env
   ${CMAKE_CURRENT_SOURCE_DIR}/machines/orion_intel.env
   ${CMAKE_CURRENT_SOURCE_DIR}/machines/orion_gnu.env
+)
+
+#
+set( template_script
+  ${CMAKE_CURRENT_SOURCE_DIR}/template/linux.sh.tmp
+  ${CMAKE_CURRENT_SOURCE_DIR}/template/config.sh.tmp
+  ${CMAKE_CURRENT_SOURCE_DIR}/template/config_ctest.sh.tmp
 )
 
 #
@@ -42,6 +46,15 @@ foreach(FILENAME ${test_scripts})
            ${CMAKE_CURRENT_SOURCE_DIR}/${FILENAME}
            ${CMAKE_CURRENT_BINARY_DIR}/${FILENAME} )
 endforeach(FILENAME)
+
+#
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/template)
+foreach(FILENAME ${template_script})
+     get_filename_component(filename ${FILENAME} NAME )
+     execute_process( COMMAND ${CMAKE_COMMAND} -E create_symlink
+         ${FILENAME}
+         ${CMAKE_CURRENT_BINARY_DIR}/template/${filename} )
+endforeach()
 
 # machine envs
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/machines)
@@ -90,11 +103,3 @@ add_test ( NAME test_regional_workflow
            COMMAND bash run_srw.sh ${abs_top_srcdir} ${CMAKE_CURRENT_BINARY_DIR}
            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/htf )
 set_tests_properties(test_regional_workflow PROPERTIES TIMEOUT 7200)
-
-#
-if ( TEST_BARRY )
-  add_test ( NAME test_barry
-             COMMAND bash run_barry.sh ${abs_top_srcdir} ${CMAKE_CURRENT_BINARY_DIR}
-             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/htf )
-  set_tests_properties(test_barry PROPERTIES TIMEOUT 7200)
-endif()

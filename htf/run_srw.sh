@@ -79,8 +79,8 @@ else
 fi
 
 #
-atparse < config.sh.tmp > config.sh
-atparse < linux.sh.tmp > linux.sh
+atparse < ./template/config_ctest.sh.tmp > config.sh
+atparse < ./template/linux.sh.tmp > linux.sh
 mv config.sh $WORK_DIR
 mv linux.sh $WORK_DIR/machine/
 

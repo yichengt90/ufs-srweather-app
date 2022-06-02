@@ -80,4 +80,11 @@ Test project /work/noaa/epic-ps/ycteng/case/20220524/ufs-srweather-app/build/tes
 
 Total Test time (real) = 1500.55 sec
 ```
-Additionally, the user can modify test/default_vars.sh to run test#5 with differnt resolution/physical suite/number of cores/length of forecast.
+Additionally, the user can use ``create_case.sh`` script to generate new case using regional workflow with desired setup (e.g. platform, grid, physical suite, selected event)
+
+```
+./create_case.sh --platform=orion --account=epic-ps --grid=RRFS_CONUS_25km --fcst_hr=3 --ccpp=FV3_GFS_v15p2 --case=2019_BARRY
+
+Then follow instruction shown on screen to run your case
+
+```
