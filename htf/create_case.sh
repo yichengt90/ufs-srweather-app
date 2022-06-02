@@ -182,23 +182,6 @@ module load ${MODULE_FILE}
 module load "wflow_${PLATFORM}"
 conda activate regional_workflow
 
-# check if exp_dir is existed or not
-if [ -d "${EXP_DIR}/${EXP_NAME}" ]; then
-  # interactive selection
-  printf "EXP directory (${EXP_DIR}/${EXP_NAME}) already exists\n"
-  printf "Please choose what to do:\n\n"
-  printf "[R]emove the existing directory\n"
-  printf "[C]ontinue using in the existing directory\n"
-  printf "[Q]uit this script\n"
-  read -p "Choose an option (R/C/Q):" choice
-  case ${choice} in
-    [Rr]* ) rm -rf ${EXP_DIR}/${EXP_NAME}; break ;;
-    [Cc]* ) break ;;
-    [Qq]* ) exit ;;
-    * ) printf "Invalid option selected.\n" ;;
-  esac
-fi
-
 # prepare config.sh based on the selected case
 source ${HTF_DIR}/atparse.bash
 
@@ -217,7 +200,7 @@ case $CASE in
     FMT="nemsio"
     MDL_BASEDIR=${HTF_DIR}/input-data/model_data/BARRY
     #EXP_DIR="${HTF_DIR}/${CASE}_${GRID_NAME}_${CCPP_SUITE}"
-    #EXP_NAME="$(basename "$EXP_DIR")"
+    EXP_NAME="$(basename "$EXP_DIR")"
     # check if ic and lbcs data are existed
     if [ -f "$MDL_BASEDIR/gfs.t${CYCLE_HR}z.atmanl.nemsio" ]; then
        echo "$CASE IC data existed" 
@@ -266,6 +249,23 @@ esac
 # print settings
 if [ "${VERBOSE}" = true ] ; then
   settings
+fi
+
+# check if exp_dir is existed or not
+if [ -d "${EXP_DIR}/${EXP_NAME}" ]; then
+  # interactive selection
+  printf "EXP directory (${EXP_DIR}/${EXP_NAME}) already exists\n"
+  printf "Please choose what to do:\n\n"
+  printf "[R]emove the existing directory\n"
+  printf "[C]ontinue using in the existing directory\n"
+  printf "[Q]uit this script\n"
+  read -p "Choose an option (R/C/Q):" choice
+  case ${choice} in
+    [Rr]* ) rm -rf ${EXP_DIR}/${EXP_NAME}; break ;;
+    [Cc]* ) break ;;
+    [Qq]* ) exit ;;
+    * ) printf "Invalid option selected.\n" ;;
+  esac
 fi
 
 #set up workflow
