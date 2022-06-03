@@ -88,5 +88,6 @@ The user can also use ``create_case.sh`` script to generate new case using regio
 ```
 ./create_case.sh --platform=orion --account=epic-ps --grid=RRFS_CONUS_25km --fcst_hr=3 --ccpp=FV3_GFS_v15p2 --case=2019_BARRY
 ```
-Then follow instruction shown on screen to run your case. Below is an example to use ``create_case.sh`` with different grid resolution:
-![Screen Shot 2022-05-20 at 3 31 13 PM](https://user-images.githubusercontent.com/30629225/171699496-473fea39-5502-4d3c-b701-41aa56967a82.png)
+Then follow instruction shown on screen to run your case. Below is an example to use ``create_case.sh`` with different ccpp suites:
+
+![Screen Shot 2022-06-03 at 12 34 55 PM](https://user-images.githubusercontent.com/30629225/171907971-092760fa-c566-4a8e-a571-f5da4a972a91.png)
