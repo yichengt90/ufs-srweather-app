@@ -200,7 +200,7 @@ case $CASE in
     FMT="nemsio"
     MDL_BASEDIR=${HTF_DIR}/input-data/model_data/BARRY
     #EXP_DIR="${HTF_DIR}/${CASE}_${GRID_NAME}_${CCPP_SUITE}"
-    EXP_NAME="$(basename "$EXP_DIR")"
+    EXP_NAME="${CASE}_${GRID_NAME}_${CCPP_SUITE}" 
     # check if ic and lbcs data are existed
     if [ -f "$MDL_BASEDIR/gfs.t${CYCLE_HR}z.atmanl.nemsio" ]; then
        echo "$CASE IC data existed" 
