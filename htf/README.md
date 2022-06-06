@@ -82,12 +82,42 @@ Total Test time (real) = 1500.55 sec
 ```
 Additionally, user can adjust ``default_vars.sh`` to run test#5 with differnt resolution/physical suite/number of cores/length of forecast.
 
-## Create case script
+## Create case script for HTF
 The user can also use ``create_case.sh`` script to generate new case using regional workflow with desired setup (e.g. platform, grid, physical suite, [selected event](https://ufs-case-studies.readthedocs.io/en/develop/2019Barry.html))
 
 ```
+$ ./create_case.sh -h
+Usage: ./create_case.sh --platform=PLATFORM --account=ACCOUNT [OPTIONS]...
+
+OPTIONS
+  -h, --help
+      show this help guide
+  -p, --platform=PLATFORM
+      name of machine you are building on
+      (e.g. cheyenne | hera | jet | orion | wcoss_dell_p3 | wcoss2)
+  --account=ACCOUNT
+      account on hpc machine
+  --compiler=COMPILER
+      compiler to use; default depends on platform
+      (e.g. intel | gnu | cray | gccgfortran)
+  --case=CASE
+      weather model case study
+      (e.g. 2019_BARRY)
+  --grid=GRID_NAME
+      grid name
+      (e.g. RRFS_CONUS_25km)
+  --fcst_hr=FCST_HRS
+      FCST HR (default: 3)
+  --ccpp=CCPP_SUITE
+      CCPP suite
+  --exp-dir=EXP_DIR
+      build directory
+  -v, --verbose
+      build with verbose output
+      
 ./create_case.sh --platform=orion --account=epic-ps --grid=RRFS_CONUS_25km --fcst_hr=3 --ccpp=FV3_GFS_v15p2 --case=2019_BARRY
+
 ```
-Then follow instruction shown on screen to run your case. Below is an example to use ``create_case.sh`` with different ccpp suites:
+Then follow instruction shown on screen to run your case using rocoto. Below is an example to use ``create_case.sh`` with different ccpp suites:
 
 ![Screen Shot 2022-06-03 at 12 34 55 PM](https://user-images.githubusercontent.com/30629225/171907971-092760fa-c566-4a8e-a571-f5da4a972a91.png)
