@@ -26,13 +26,16 @@ OPTIONS
       FCST HR (default: 3)
   --ccpp=CCPP_SUITE
       CCPP suite
+  --layout_x=LAYOUTX
+      layout x
+  --layout_y=LAYOUTY
+      layout y
+  --wtime=WTIME
+      WALL TIME (e.g. "01:00:00")
   --exp-dir=EXP_DIR
       build directory
   -v, --verbose
       build with verbose output
-
-NOTE: This script is for internal developer use only;
-See User's Guide for detailed build instructions
 
 EOF_USAGE
 }
@@ -53,7 +56,10 @@ Settings:
   COMPILER=${COMPILER}
   CCPP_SUITE=${CCPP_SUITE}
   GRID_NAME=${GRID_NAME}
-  FCST_HRS=${FCST_HRS} 
+  LAYOUTX=${LAYOUTX}
+  LAYOUTY=${LAYOUTY} 
+  FCST_HRS=${FCST_HRS}
+  WTIME=${WTIME} 
   VERBOSE=${VERBOSE}
 
 EOF_SETTINGS
@@ -77,6 +83,9 @@ COMPILER=""
 CASE="2019_BARRY"
 GRID_NAME="RRFS_CONUS_25km"
 CCPP_SUITE="FV3_GFS_v16"
+LAYOUTX=5
+LAYOUTY=2
+WTIME="01:00:00"
 EXP_DIR="${HTF_DIR}/test_srw"
 EXP_NAME="${CASE}_${GRID_NAME}_${CCPP_SUITE}"
 ACCOUNT=""
@@ -106,6 +115,12 @@ while :; do
     --grid|--grid=) usage_error "$1 requires argument." ;;
     --fcst_hr=?*) FCST_HRS=${1#*=} ;;
     --fcst_hr|--fcst_hr=) usage_error "$1 requires argument." ;;
+    --layout_x=?*) LAYOUTX=${1#*=} ;;
+    --layout_x|--layout_x=) usage_error "$1 requires argument." ;;
+    --layout_y=?*) LAYOUTY=${1#*=} ;;
+    --layout_y|--layout_y=) usage_error "$1 requires argument." ;;
+    --wtime=?*) WTIME=${1#*=} ;;
+    --wtime|--wtime=) usage_error "$1 requires argument." ;;
     --exp-dir=?*) EXP_DIR=${1#*=} ;;
     --exp-dir|--exp-dir=) usage_error "$1 requires argument." ;;
     --verbose|-v) VERBOSE=true ;;
@@ -195,8 +210,9 @@ case $CASE in
     LAST_CYCLE=20190712
     CYCLE_HR=00
     MODEL_NAME=${GRID_NAME}_${CCPP_SUITE}
-    LAYOUTX=10
-    LAYOUTY=6
+    LAYOUTX=${LAYOUTX}
+    LAYOUTY=${LAYOUTY}
+    WTIME=${WTIME}
     FMT="nemsio"
     MDL_BASEDIR=${HTF_DIR}/input-data/model_data/BARRY
     #EXP_DIR="${HTF_DIR}/${CASE}_${GRID_NAME}_${CCPP_SUITE}"
