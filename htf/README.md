@@ -110,12 +110,18 @@ OPTIONS
       FCST HR (default: 3)
   --ccpp=CCPP_SUITE
       CCPP suite
+  --layout_x=LAYOUTX
+      layout x
+  --layout_y=LAYOUTY
+      layout y
+  --wtime=WTIME
+      WALL TIME (e.g. "01:00:00")
   --exp-dir=EXP_DIR
       build directory
   -v, --verbose
       build with verbose output
       
-./create_case.sh --platform=orion --account=epic-ps --grid=RRFS_CONUS_25km --fcst_hr=3 --ccpp=FV3_GFS_v15p2 --case=2019_BARRY
+./create_case.sh --platform=orion --account=epic-ps --grid=RRFS_CONUS_25km --fcst_hr=3 --ccpp=FV3_GFS_v16 --case=2019_BARRY --wtime="02:00:00" --layout_x=10 --layout_y=6 -v
 
 ```
 Then follow instruction shown on screen to run your case using rocoto. Below is an example to use ``create_case.sh`` with different ccpp suites:
