@@ -32,10 +32,7 @@ On NOAA Cloud (AWS for example):
 git clone -b ctest https://github.com/clouden90/ufs-srweather-app.git
 cd ufs-srweather-app
 ./manage_externals/checkout_externals -o
-module use modulefiles
-module load build_orion_intel
-module load wflow_orion
-conda activate regional_workflow
+source htf/machines/orion_intel.env
 mkdir build
 cd build
 cmake -DBUILD_CCPP-SCM=ON .. -DCMAKE_INSTALL_PREFIX=..

@@ -9,11 +9,11 @@
 #SBATCH --exclusive
 
 #
-#source ./machines/orion_intel.env 
-module use ../../modulefiles
-module load build_orion_intel 
-module load wflow_orion
-conda activate regional_workflow
+source ./machines/orion_intel.env 
+#module use ../../modulefiles
+#module load build_orion_intel 
+#module load wflow_orion
+#conda activate regional_workflow
 
 #
 ctest
