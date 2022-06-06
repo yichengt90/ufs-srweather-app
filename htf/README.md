@@ -32,13 +32,16 @@ On NOAA Cloud (AWS for example):
 git clone -b ctest https://github.com/clouden90/ufs-srweather-app.git
 cd ufs-srweather-app
 ./manage_externals/checkout_externals -o
-source test/machines/noaacloud_aws_intel.env
+module use modulefiles
+module load build_orion_intel
+module load wflow_orion
+conda activate regional_workflow
 mkdir build
 cd build
 cmake -DBUILD_CCPP-SCM=ON .. -DCMAKE_INSTALL_PREFIX=..
 make -j4
 cd test
-sbatch job_card
+sbatch job_card_orion
 
 ```
 And You can check your slurm output. It should contain something like:
