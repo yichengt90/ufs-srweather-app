@@ -79,7 +79,7 @@ endforeach()
 
 #
 if ( BUILD_CCPP-SCM )
-  add_test ( NAME test_ccpp_scm
+  add_test ( NAME test_ccpp_scm_fv3
              COMMAND bash run_ccpp.sh ${abs_top_srcdir}
              WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/htf )
 endif()
