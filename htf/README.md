@@ -16,7 +16,7 @@ System requirements: at least 12-core cpus, 16gb memory, and 60gb disk space
 ```
 [Yi-cheng.Teng@awsnoaa-1 test]$ ctest -N
 Test project /lustre/ufs-srweather-app/build/test
-  Test #1: test_ccpp
+  Test #1: test_ccpp_scm_fv3
   Test #2: test_fv3_regional_noquilt
   Test #3: test_fv3_regional_upp
   Test #4: test_fv3_regional_stoch
