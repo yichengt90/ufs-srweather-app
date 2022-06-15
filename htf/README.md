@@ -45,8 +45,8 @@ And You can check your slurm output. It should contain something like:
 
 ```
 Test project /lustre/ufs-srweather-app/build/test
-    Start 1: test_ccpp
-1/5 Test #1: test_ccpp ........................   Passed    6.78 sec
+    Start 1: test_ccpp_scm_fv3
+1/5 Test #1: test_ccpp_scm_fv3 ................   Passed    6.78 sec
     Start 2: test_fv3_regional_noquilt
 2/5 Test #2: test_fv3_regional_noquilt ........   Passed   74.70 sec
     Start 3: test_fv3_regional_upp
@@ -65,8 +65,8 @@ Or on Orion:
 
 ```
 Test project /work/noaa/epic-ps/ycteng/case/20220524/ufs-srweather-app/build/test
-    Start 1: test_ccpp
-1/5 Test #1: test_ccpp ........................   Passed    9.27 sec
+    Start 1: test_ccpp_scm_fv3
+1/5 Test #1: test_ccpp_scm_fv3 ................   Passed    9.27 sec
     Start 2: test_fv3_regional_noquilt
 2/5 Test #2: test_fv3_regional_noquilt ........   Passed   78.67 sec
     Start 3: test_fv3_regional_upp
