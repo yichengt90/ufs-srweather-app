@@ -124,6 +124,11 @@ OPTIONS
 ./create_case.sh --platform=orion --account=epic-ps --grid=RRFS_CONUS_25km --fcst_hr=3 --ccpp=FV3_GFS_v16 --case=2019_BARRY --wtime="02:00:00" --layout_x=10 --layout_y=6 -v
 
 ```
-Then follow instruction shown on screen to run your case using rocoto. Below is an example to use ``create_case.sh`` with different ccpp suites:
+Then follow instruction shown on screen to run your case using rocoto. 
+
+Below is an example to use htf-ctest to check results from ccpp-scm (t profiles):
+![profiles_mean_T](https://user-images.githubusercontent.com/30629225/173900650-9227d4f2-cd25-42a3-8388-f661c5df14d3.png)
+
+Below is an example to use ``create_case.sh`` with different ccpp suites and compared with best track:
 
 ![Screen Shot 2022-06-03 at 12 34 55 PM](https://user-images.githubusercontent.com/30629225/171907971-092760fa-c566-4a8e-a571-f5da4a972a91.png)
