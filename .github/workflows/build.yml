@@ -47,6 +47,10 @@ jobs:
        cmake ..
        #
        cd htf
+       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip" -o "awscliv2.zip"
+       unzip awscliv2.zip
+       ./aws/install -i ${GITHUB_WORKSPACE}/aws-cli -b ${GITHUB_WORKSPACE}/aws-cli/bin
+       export PATH=${GITHUB_WORKSPACE}/aws-cli/bin:$PATH
        ctest -N
        #
        ctest -VV -R test_fv3_regional_noquilt
