@@ -35,7 +35,7 @@ cd ufs-srweather-app
 source htf/machines/orion_intel.env
 mkdir build
 cd build
-cmake -DBUILD_CCPP-SCM=ON .. -DCMAKE_INSTALL_PREFIX=..
+cmake -DBUILD_CCPP-SCM=ON -DBUILD_UFS_UTILS=ON -DBUILD_UPP=ON .. -DCMAKE_INSTALL_PREFIX=..
 make -j4
 cd test
 sbatch job_card_orion
@@ -132,3 +132,6 @@ Below is an example to use htf-ctest to check results from ccpp-scm (t profiles)
 Below is an example to use ``create_case.sh`` with different ccpp suites and compared with best track:
 
 ![Screen Shot 2022-06-03 at 12 34 55 PM](https://user-images.githubusercontent.com/30629225/171907971-092760fa-c566-4a8e-a571-f5da4a972a91.png)
+
+## CI test
+Currently, a CI test thru git action for HTF is added (check [here](https://github.com/clouden90/ufs-srweather-app/runs/6924907844?check_suite_focus=true))  
