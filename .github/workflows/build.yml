@@ -27,7 +27,7 @@ jobs:
        # load modules
        source /opt/intel/oneapi/setvars.sh
        source /opt/spack-stack/setup.sh
-       spack env activate $SPACK_STACK_DIR/envs/jedi-base-env
+       spack env activate $SPACK_STACK_DIR/envs/ufs-env
        spack install nemsio@2.5.2
        spack install sfcio@1.4.1
        spack install sigio@2.3.2
