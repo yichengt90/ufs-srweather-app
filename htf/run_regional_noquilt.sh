@@ -54,3 +54,6 @@ if [[ $OUT != "export FHMAX=$(eval echo "${CTEST_FHMAX}")" ]]; then
 fi
 #
 bash rt.sh
+more FV3_RT/rt_*/regional_noquilt/out
+more FV3_RT/rt_*/regional_noquilt/err
+more log_linux.intel/run_regional_noquilt.log
