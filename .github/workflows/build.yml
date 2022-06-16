@@ -53,4 +53,7 @@ jobs:
        export PATH=${GITHUB_WORKSPACE}/aws-cli/bin:$PATH
        ctest -N
        #
+       sed -i 's/export CTEST_WRITE_TASKS=2/export CTEST_WRITE_TASKS=0/g' ./default_vars.sh
+       sed -i 's/export CTEST_LAYOUTX=5/export CTEST_LAYOUTX=2/g' ./default_vars.sh
+       sed -i 's/export CTEST_LAYOUTY=2/export CTEST_LAYOUTY=1/g' ./default_vars.sh
        ctest -VV -R test_fv3_regional_noquilt
