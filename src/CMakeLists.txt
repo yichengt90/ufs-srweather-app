@@ -63,13 +63,16 @@ ExternalProject_Add(ufs-weather-model
   BUILD_ALWAYS TRUE
   )
 
-ExternalProject_Add(UPP
-  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/UPP
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/UPP
-  INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
-  CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}"
-  BUILD_ALWAYS TRUE
-  )
+option(BUILD_UPP "build upp (for SRW regional workflow test cases)")
+if ( BUILD_UPP )
+  ExternalProject_Add(UPP
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/UPP
+    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/UPP
+    INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
+    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}"
+    BUILD_ALWAYS TRUE
+    )
+endif ()  
 
 option(BUILD_CCPP-SCM "build ccpp-scm (only needed if want to run a complete set of ctest)")
 if ( BUILD_CCPP-SCM )
