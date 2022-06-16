@@ -1,3 +1,5 @@
+[![Build htf](https://github.com/clouden90/ufs-srweather-app/actions/workflows/build.yml/badge.svg?branch=ctest)](https://github.com/clouden90/ufs-srweather-app/actions/workflows/build.yml)
+
 # Build HTF test for the UFS Short-Range Weather App
 
 ## ctest (for Hierarchical Testing Framework, HTF)
