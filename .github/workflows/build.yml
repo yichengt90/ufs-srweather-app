@@ -28,11 +28,11 @@ jobs:
        source /opt/intel/oneapi/setvars.sh
        source /opt/spack-stack/setup.sh
        spack env activate $SPACK_STACK_DIR/envs/ufs-env
+       spack load ufs-weather-model-env ~debug
        spack install nemsio@2.5.2
        spack install sfcio@1.4.1
        spack install sigio@2.3.2
        spack install wgrib2@2.0.8
-       spack load ufs-weather-model-env ~debug
        spack load nemsio
        spack load sfcio
        spack load sigio
