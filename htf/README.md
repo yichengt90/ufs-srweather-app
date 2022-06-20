@@ -46,6 +46,7 @@ sbatch job_card_orion
 And You can check your slurm output. It should contain something like:
 
 ```
+[Yi-cheng.Teng@awsnoaa-1 test]$ ctest
 Test project /lustre/ufs-srweather-app/build/test
     Start 1: test_ccpp_scm_fv3
 1/5 Test #1: test_ccpp_scm_fv3 ................   Passed    6.78 sec
